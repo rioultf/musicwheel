@@ -1,0 +1,266 @@
+/* ControlPanel.css */
+
+.control-panel {
+  width: 360px; /* ✅ largeur totale fixée */
+  padding: 0.6em;
+  border: 1px solid #bbb;
+  background-color: #fafafa;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  font-family: sans-serif;
+  font-size: 0.85em; /* ✅ police plus petite */
+}
+
+/* === Tableau compact avec colonnes visibles === */
+.layer-table {
+  display: grid;
+  grid-template-columns:
+    42px   /* label */
+    80px   /* Period */
+    80px   /* Division */
+    90px   /* Width */
+    28px   /* Dir */
+    28px;  /* Phase */
+  gap: 0; /* ⚠️ on retire le gap pour que les bordures s’alignent parfaitement */
+  align-items: stretch;
+  border-collapse: collapse; /* effet visuel de tableau */
+  border: 1px solid #bbb; /* contour général */
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 0.85em;
+}
+
+/* Chaque ligne (header, global, bagues) partage la grille */
+.layer-table .header-row,
+.layer-table .row {
+  display: contents;
+}
+
+/* === Cellules === */
+.layer-table .cell {
+  padding: 0.2em 0.1em;
+  white-space: nowrap;
+  border-right: 1px solid #ccc; /* ✅ séparateur vertical */
+  border-bottom: 1px solid #ddd; /* ✅ séparateur horizontal */
+  background-color: #fff;
+}
+
+/* Dernière colonne sans bordure droite */
+.layer-table .cell:last-child {
+  border-right: none;
+}
+
+/* En-tête (plus visible) */
+.layer-table .header-row .cell {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  border-bottom: 2px solid #999;
+}
+
+/* Ligne globale légèrement grisée */
+.layer-table .global-row .cell {
+  background-color: #f9f9f9;
+}
+
+/* Ligne des bagues */
+.layer-table .row:nth-child(even) .cell {
+  background-color: #fcfcfc;
+}
+
+/* Valeurs numériques centrées */
+.layer-table .layer-val {
+  display: inline-block;
+  width: 2em;
+  text-align: center;
+}
+
+/* Boutons compacts */
+.layer-table button {
+  padding: 0.1em 0.25em;
+  margin: 0 0.05em;
+  font-size: 0.8em;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.layer-table button:hover {
+  background: #e8e8e8;
+}
+
+/* Checkboxes centrées */
+.layer-table input[type="checkbox"] {
+  transform: scale(1.1);
+  vertical-align: middle;
+}
+
+/* Label colonne de gauche */
+.layer-table .label {
+  font-weight: bold;
+  padding-right: 0.3em;
+  background-color: #f7f7f7;
+  border-right: 1px solid #ccc;
+}
+
+/* === Groupe de boutons sur deux lignes dans la ligne globale === */
+.layer-table .two-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1em;
+}
+
+.layer-table .two-lines .line-top,
+.layer-table .two-lines .line-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 0.1em;
+}
+
+/* Jauge plus fine */
+.elapsed-display {
+  margin-top: 0.4em;
+  gap: 0.3em;
+}
+
+.gauge-bar-container {
+  flex: 1;
+  height: 8px;
+}
+
+.global-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.top-controls {
+  display: flex;
+  gap: 0.6em;
+}
+
+.top-controls button {
+  padding: 0.4em 0.8em;
+  cursor: pointer;
+}
+
+.bpm-control {
+  margin-top: 0.6em;
+}
+
+.bpm-control input {
+  width: 4em;
+  margin-left: 0.4em;
+}
+
+.couronnes-control {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.global-controls-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.global-controls-line .label {
+  width: 60px;
+  font-weight: bold;
+}
+
+.global-controls-line button {
+  width: 2.4em;
+  height: 2.4em;
+  line-height: 1.2em;
+  text-align: center;
+  cursor: pointer;
+}
+
+.section-separator {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0.2em 0;
+}
+
+.layer-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.layer-list-header {
+  display: grid;
+  grid-template-columns: 3.2em 2em repeat(3, 1.8em) 3em repeat(3, 1.5em) 2em 2em;
+  gap: 0.3em;
+  font-weight: bold;
+  padding-bottom: 0.em;
+  border-bottom: 1px solid #ccc;
+}
+
+.layer-row {
+  display: grid;
+  grid-template-columns: 3.2em 2em repeat(3, 1.6em) 3em repeat(3, 1.6em) 2em 2em;
+  gap: 0.3em;
+  align-items: center;
+  border-top: 1px solid #eee;
+}
+
+.layer-index, .layer-val {
+  text-align: center;
+}
+
+.layer-row button {
+  padding: 0.2em;
+  cursor: pointer;
+}
+
+/* Jauge & flash */
+.elapsed-display {
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em; /* espace entre jauge et chiffre */
+}
+
+.gauge-bar-container {
+  flex: 1;                /* la jauge prend toute la largeur disponible */
+  height: 10px;
+  background-color: #e5e5e5;
+  border: 1px solid #c7c7c7;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.revolutions-count {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #333;
+  min-width: 1.5em;
+  text-align: right;
+}
+
+.gauge-bar-fill {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.08s linear; /* fluide, court */
+}
+
+.gauge-bar-fill.flash {
+  animation: flashPulse 180ms ease-in-out;
+}
+
+.layer-row input[type="range"] {
+  accent-color: #4caf50;
+}
+
+@keyframes flashPulse {
+  0%   { background-color: #4caf50; }
+  40%  { background-color: #ff9800; }
+  100% { background-color: #4caf50; }
+}
+
