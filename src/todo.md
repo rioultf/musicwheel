@@ -1,14 +1,17 @@
 - explique React useRef et pourquoi/comment les const sont recalculées et transmises. Découplage
 
-- cliquer sur le slider pour avancer dans le temps
 - fondu vers le vert
-- redessiner comme une console avec des faders
 - tap pour le BPM
-- un slider pour l'épaisseur + inversion phase et des courbes globales : augmenter toutes les tailles / inverser
 - que le recurrence time soit une fraction
 - que la période avec/sans ease soit égale.
 - mettre la période au carré/cube pour avoir un comportement mécanique réalise
 - mettre un ghost
+
+
+git remote add origin git@github.com:rioultf/musicwheel.git
+git branch -M main
+git push -u origin main
+
 
 
 Voici un résumé clair et synthétique, idéal pour une présentation ou un README :

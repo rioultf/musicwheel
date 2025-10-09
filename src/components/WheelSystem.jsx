@@ -15,6 +15,7 @@ export default function WheelSystem({
   flash,
   slowFactor,
   seekTimestamp, // ✅ nouveau
+  scale,
 }) {
   const cx = width / 2;
   const cy = height / 2;
@@ -60,16 +61,16 @@ export default function WheelSystem({
         return;
       }
       setLayers((prev) => prev.map((lay) => {
-          // si speedOptions est un objet { exponent, value }
-          const speedEntry = speedOptions[lay.speedIndex];
-          const speedBase = speedEntry?.value ?? speedEntry;
-          const speedEffective = speedBase * baseFactor;
-          const dTheta = speedEffective * 2 * Math.PI * dt * slowFactor * (lay.direction || 1);
-          return {
-            ...lay,
-            theta: (lay.theta + dTheta + 2 * Math.PI) % (2 * Math.PI),
-          };
-        }))
+        // si speedOptions est un objet { exponent, value }
+        const speedEntry = speedOptions[lay.speedIndex];
+        const speedBase = speedEntry?.value ?? speedEntry;
+        const speedEffective = speedBase * baseFactor;
+        const dTheta = speedEffective * 2 * Math.PI * dt * slowFactor * (lay.direction || 1);
+        return {
+          ...lay,
+          theta: (lay.theta + dTheta + 2 * Math.PI) % (2 * Math.PI),
+        };
+      }))
     },
     [speedOptions, baseFactor, isRunning, slowFactor]
   );
@@ -78,7 +79,7 @@ export default function WheelSystem({
 
   return (
     <svg width={width} height={height}>
-      <g transform={`translate(${cx},${cy})`}>
+      <g transform={`translate(${cx},${cy}) scale(${scale ?? 1})`}>
         {layers.map((lay, i) => (
           <WheelLayer key={i} layer={lay} flash={flash} phaseShifted={lay.phaseShifted} />
         ))}
