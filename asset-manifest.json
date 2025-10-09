@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-gh-pages/static/css/main.f855e6bc.css",
-    "main.js": "/react-gh-pages/static/js/main.8b02db69.js",
-    "static/js/453.2db0c7a9.chunk.js": "/react-gh-pages/static/js/453.2db0c7a9.chunk.js",
-    "static/media/logo.svg": "/react-gh-pages/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/react-gh-pages/index.html",
-    "main.f855e6bc.css.map": "/react-gh-pages/static/css/main.f855e6bc.css.map",
-    "main.8b02db69.js.map": "/react-gh-pages/static/js/main.8b02db69.js.map",
-    "453.2db0c7a9.chunk.js.map": "/react-gh-pages/static/js/453.2db0c7a9.chunk.js.map"
+    "main.css": "/musicwheel/static/css/main.f855e6bc.css",
+    "main.js": "/musicwheel/static/js/main.cda7ae5d.js",
+    "static/js/453.2db0c7a9.chunk.js": "/musicwheel/static/js/453.2db0c7a9.chunk.js",
+    "static/media/logo.svg": "/musicwheel/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/musicwheel/index.html",
+    "main.f855e6bc.css.map": "/musicwheel/static/css/main.f855e6bc.css.map",
+    "main.cda7ae5d.js.map": "/musicwheel/static/js/main.cda7ae5d.js.map",
+    "453.2db0c7a9.chunk.js.map": "/musicwheel/static/js/453.2db0c7a9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f855e6bc.css",
-    "static/js/main.8b02db69.js"
+    "static/js/main.cda7ae5d.js"
   ]
 }
