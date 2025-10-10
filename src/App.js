@@ -248,11 +248,11 @@ export default function App() {
     //prevProgressRef.current = 0; // ✅ Réinitialise la progression précédente
     setResetTrigger((t) => t + 1);
     setSeekTimestamp(Date.now());
+    setTime(Date.now())
     setElapsedSec(0);       // ✅ remet la jauge à zéro
     //setElapsedSec(Math.max(recurrenceTime - 5, 0));       // ✅ remet la jauge à zéro
     setRevolutions(-1);// ✅ corrige le faux +1 au prochain tick
     setFlash(true); setTimeout(() => setFlash(false), 300);
-
   };
 
   const onAddCouronne = () => handleAddLayer();
@@ -432,7 +432,6 @@ export default function App() {
   const [elapsedSec, setElapsedSec] = useState(0);
 
   const onSeek = (fraction) => {
-    console.log("onSeek")
     // Nouveau temps simulé
     const newElapsed = fraction * recurrenceTime;
     setElapsedSec(newElapsed);
@@ -466,25 +465,31 @@ export default function App() {
   // Facteur de ralentissement : 1 quand cycle commence, puis chute vers la fin
   // Exemple : ralentit très fortement après 90 % du cycle
 
-  function computeSlowFactor(cycleProgress, recurrenceTime) {
-    // clamp entre 0 et 1
-    const p = Math.max(0, Math.min(1, cycleProgress));
+function lambdaUniform(recurrenceTime, a = 0.05) {
+  const w = 1 / recurrenceTime;
+  const C = 2 * (1 + a * Math.log(a / (a + 1))) + (1 / Math.sqrt(a)) * Math.atan(1 / Math.sqrt(a));
+  return (1 - 2 * w) + C * w;
+}
 
-    const interval = 1 / recurrenceTime
-    // Phase 1 : 0–0.9 → vitesse = 1
-    if (interval < p && p < 1 - interval) return 1;
-
-    // Phase 2 : 0.9–1.0 → chute rapide vers ~0
-    if (p >= 1 - interval) {
-      const t = (p - 1 + interval) / interval; // de 0 à 1
-      // courbe d'accélération inverse : chute douce puis forte
-      return 0.05 + Math.pow(1 - t, 2) * 1.0; // → 1→0
-    }
-
-    // Phase 3 : début de cycle (0–0.1) → redémarrage 0→1
-    const t = p / interval; // de 0 à 1 pour les 10% initiaux
-    return 0.05 + Math.pow(t, 1 / 2); // montée douce de 0→1
+function baseShape(p, T, a = 0.05) {
+  const w = 1 / T;
+  if (p <= w) return a + Math.sqrt(p / w);
+  if (p >= 1 - w) {
+    const t = (p - 1 + w) / w;
+    return a + (1 - t) * (1 - t);
   }
+  return 1; // plateau
+}
+
+function computeSlowFactor(p, T) {
+  if (T < 2) return 1
+  const λ = lambdaUniform(T, 0.05);
+  const f0 = baseShape(Math.max(0, Math.min(1, p)), T, 0.05);
+  return λ * f0;
+}
+
+
+
 
   //const slowFactor = computeSlowFactor(cycleProgress);
   const slowFactor = useEase ? computeSlowFactor(cycleProgress, recurrenceTime) : 1;
@@ -499,12 +504,17 @@ export default function App() {
     }
   });
 
+  const [time, setTime] = useState(Date.now())
+
   useEffect(() => {
     const prev = prevProgressRef.current;
     // Si la jauge repart de 1 → 0, c’est qu’une révolution vient de se terminer
     if (cycleProgress < prev) {
       setRevolutions((r) => r + 1);
       setFlash(true);
+      //console.log(Date.now() - time)
+      setTime(Date.now())
+
       // le flash dure ~180 ms
       setTimeout(() => setFlash(false), 300);
     }
