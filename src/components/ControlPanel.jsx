@@ -1,5 +1,5 @@
 // src/components/ControlPanel.jsx
-import React from "react";
+import React, {useRef} from "react";
 import "./ControlPanel.css";
 
 export default function ControlPanel({
@@ -40,6 +40,45 @@ export default function ControlPanel({
   cycleProgress,
   flash,
 }) {
+
+  const tapTimesRef = useRef([]);
+
+  const handleTap = () => {
+    const now = performance.now();
+    const times = tapTimesRef.current;
+
+    // Si plus de 2s sans clic → reset
+    if (times.length && now - times[times.length - 1] > 2000) {
+      tapTimesRef.current = [now];
+      return;
+    }
+
+    // Ajoute ce clic
+    times.push(now);
+
+    // Garde les 5 derniers
+    if (times.length > 5) times.shift();
+
+    if (times.length >= 2) {
+      // Calcule les intervalles successifs
+      const intervals = [];
+      for (let i = 1; i < times.length; i++) {
+        intervals.push(times[i] - times[i - 1]);
+      }
+
+      // Moyenne des intervalles
+      const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+
+      // Convertit en BPM
+      const newBpm = Math.round(60000 / avg);
+      onBpmChange(newBpm);
+    }
+  };
+
+
+
+
+
   return (
     <div className="control-panel">
 
@@ -57,16 +96,23 @@ export default function ControlPanel({
         <button onClick={onToggleEase} title="Toggle ease mode (slowdown before resync)">
           {useEase ? "Ease ON" : "Ease OFF"}
         </button>
-        <label style={{ marginLeft: "0.5em" }} title="Base tempo in beats per minute">
+        <label title="Base tempo in beats per minute">
           BPM
           <input
             type="number"
             min="1"
             value={bpm}
             onChange={(e) => onBpmChange(parseFloat(e.target.value) || 0)}
-            style={{ width: "4em", marginLeft: "0.4em" }}
+            style={{ width: "4em"}}
           />
         </label>
+        <button
+          onClick={handleTap}
+          title="Tap repeatedly to set the tempo (Tap Tempo)"
+          className="tap-button"
+        >
+          TAP
+        </button>
       </div>
 
       {/* --- Time gauge --- */}

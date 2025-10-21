@@ -1,3 +1,6 @@
+// components/WheelLayer.jsx
+
+
 import React from "react";
 import CrownWedges from "./CrownWedges";
 
